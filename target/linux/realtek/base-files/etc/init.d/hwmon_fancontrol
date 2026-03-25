@@ -86,8 +86,20 @@ linksys_lgs328mpc_v2() {
 	echo 2 > "$path_to_hwmon/pwm1_enable"
 }
 
+datto_common() {
+	path_to_hwmon=/sys/class/hwmon/hwmon1
+	# manual PWM control
+	echo 1 > "$path_to_hwmon/pwm1_enable"
+	# max duty cycle
+	echo 255 > "$path_to_hwmon/pwm1"
+}
+
 boot() {
 	case $(board_name) in
+	datto,e24v3|\
+	datto,e48)
+		datto_common
+		;;
 	plasmacloud,esx28|\
 	plasmacloud,psx28)
 		plasmacloud_common

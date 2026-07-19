@@ -92,11 +92,12 @@ datto_common() {
 	echo 1 > "$path_to_hwmon/pwm1_enable"
 	# max duty cycle
 	echo 255 > "$path_to_hwmon/pwm1"
+	# less annoying
+	echo 30000 > "$path_to_hwmon/pwm1_freq"
 }
 
 boot() {
 	case $(board_name) in
-	datto,e24v3|\
 	datto,e48)
 		datto_common
 		;;

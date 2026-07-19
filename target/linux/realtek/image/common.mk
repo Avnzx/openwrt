@@ -38,17 +38,6 @@ define Device/d-link_dgs-1210
   CAMEO_BOARD_VERSION := 32
 endef
 
-define Device/datto
-  IMAGE_SIZE := 13504k
-  DEVICE_VENDOR := Datto
-  KERNEL_INITRAMFS := \
-	kernel-bin | \
-	append-dtb | \
-	rt-compress | \
-	rt-loader | \
-	uImage none -n 'IMG-00.00.00'
-endef
-
 # The "IMG-" uImage name allows flashing the iniramfs from the vendor Web UI.
 # Avoided for sysupgrade, as the vendor FW would do an incomplete flash.
 define Device/engenius_ews2910p

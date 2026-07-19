@@ -273,37 +273,46 @@
 		reg = <0>;
 		spi-max-frequency = <10000000>;
 
-		partitions {
+        partitions {
 			compatible = "fixed-partitions";
 			#address-cells = <1>;
 			#size-cells = <1>;
 
 			partition@0 {
 				label = "u-boot";
-				reg = <0x00000000 0x80000>;
+				reg = <0x0 0x80000>;
 				read-only;
 			};
 			partition@80000 {
 				label = "u-boot-env";
-				reg = <0x00080000 0x10000>;
+				reg = <0x80000 0x10000>;
+				nvmem-layout {
+					compatible = "u-boot,env";
+
+					macaddr_ubootenv_ethaddr: ethaddr {
+						#nvmem-cell-cells = <1>;
+					};
+				};
 			};
 			partition@90000 {
-				label = "sysinfo";
-				reg = <0x00090000 0x20000>;
+				label = "u-boot-env2";
+				reg = <0x90000 0x20000>;
 			};
 			partition@a0000 {
 				label = "cfg";
-				reg = <0x000a0000 0x400000>;
+				reg = <0xa0000 0x400000>;
 			};
 			partition@4a0000 {
 				label = "log";
-				reg = <0x004a0000 0x100000>;
+				reg = <0x4a0000 0x100000>;
 			};
-			partition@5a0000 {
-				label = "firmware"; /* runtime */
-				reg = <0x005a0000 0x1a60000>;
-				compatible = "openwrt,uimage", "denx,uimage";
-				openwrt,ih-magic = <0x00702201>;
+			fwconcat0: partition@5a0000 {
+				label = "runtime";
+				reg = <0x5a0000 0xd30000>;
+			};
+			fwconcat1: partition@12d0000 {
+				label = "runtime2";
+				reg = <0x12d0000 0xd30000>;
 			};
 		};
 	};

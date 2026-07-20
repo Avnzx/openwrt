@@ -91,6 +91,25 @@
 			reg = <0x4c>;
 		};
 	};
+
+    virtual_flash {
+		compatible = "mtd-concat";
+
+		devices = <&fwconcat0>, <&fwconcat1>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "firmware";
+				reg = <0x0 0x1a60000>;
+				compatible = "openwrt,uimage", "denx,uimage";
+				openwrt,ih-magic = <0x00702201>;
+			};
+		};
+	};
 };
 
 &uart1 {
@@ -264,6 +283,11 @@
 			};
 		};
 	};
+};
+
+&ethernet0 {
+	nvmem-cells = <&macaddr_ubootenv_ethaddr 0>;
+	nvmem-cell-names = "mac-address";
 };
 
 &spi0 {
